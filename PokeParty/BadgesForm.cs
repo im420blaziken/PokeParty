@@ -42,7 +42,20 @@ namespace PokeParty
         }
 
         private void LayoutBadges(Orientation value) {
-            foreach (PictureBox pb in this._badges) this.Controls.Remove(pb);
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(
+                    () =>
+                    {
+                        foreach (PictureBox pb in this._badges) this.Controls.Remove(pb);
+                    })
+                );
+            }
+            else if (Program.IsMainThread)
+            {
+                foreach (PictureBox pb in this._badges) this.Controls.Remove(pb);
+            }
+            
             this._badges.Clear();
             this._animators.Clear();
 

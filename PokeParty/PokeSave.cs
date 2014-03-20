@@ -60,7 +60,8 @@ namespace PokeParty
                 new Dictionary<OffsetType, uint>() {
                     { OffsetType.SAVESTATE, 0x2B894 },
                     { OffsetType.TEAM_LIST, 0x1234 },
-                    { OffsetType.BADGES, 0x3A7D }
+                    //{ OffsetType.BADGES, 0x3A7D }
+                    { OffsetType.BADGES, 0x3A56 }
                 }
             },
         };
@@ -285,7 +286,24 @@ namespace PokeParty
                         long _pkmn_team_position = _offsets[_currentGame][OffsetType.SAVESTATE] + _offsets[_currentGame][OffsetType.BADGES];
                         br.BaseStream.Position = _pkmn_team_position;
 
-                        _badges = br.ReadByte();
+                        byte[] buf = new byte[512];
+                        br.Read(buf, 0, 512);
+                        for (int i = 0; i < 500; i++)
+                        {
+                            // 87 FD 6D 73 EB FD 6C FD 73
+                            if (buf[i] == 0x87 && buf[i+1] == 0xFD && buf[i+2] == 0x6D && buf[i+3] == 0x73 && buf[i+4] == 0xEB && buf[i+5] == 0xFD && buf[i+6] == 0x6C
+                                && buf[i + 7] == 0xFD && buf[i + 8] == 0x73)
+                            {
+                                _badges = buf[i + 0x38];
+                                /*int zeroes = 0;
+                                while (zeroes < 3)
+                                {
+                                    if (br.ReadByte() == 0) zeroes++;
+                                    else zeroes = 0;
+                                }*/
+                                break;
+                            }
+                        }
                         return _badges; // gg, ez.
                     }
                 }

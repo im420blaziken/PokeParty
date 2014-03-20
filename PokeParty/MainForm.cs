@@ -117,36 +117,80 @@ namespace PokeParty
                 return false;
             }
 
-            if (teamForm != null) teamForm.Close();
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(() =>
+                {
+                    try
+                    {
+                        if (teamForm == null)
+                        {
+                            teamForm = new TeamForm((Orientation)cbTeamOrientation.SelectedIndex);
+                            teamForm.Show();
+                        }
+                        teamForm.ImageBackColor = this.cpTeamImageBackColor.Color;
+                        teamForm.ImageForeColor = this.cpTeamImageForeColor.Color;
+                        teamForm.TextBackColor = this.cpTeamTextBackColor.Color;
+                        teamForm.TextForeColor = this.cpTeamTextForeColor.Color;
+                    }
+                    catch
+                    {
+                        MessageBox.Show(Properties.Resources.InvalidOrientation);
+                        return;
+                    }
 
-            try
-            {
-                teamForm = new TeamForm((Orientation)cbTeamOrientation.SelectedIndex);
-                teamForm.Show();
-                teamForm.ImageBackColor = this.cpTeamImageBackColor.Color;
-                teamForm.ImageForeColor = this.cpTeamImageForeColor.Color;
-                teamForm.TextBackColor = this.cpTeamTextBackColor.Color;
-                teamForm.TextForeColor = this.cpTeamTextForeColor.Color;
+                    try
+                    {
+                        if (badgesForm == null)
+                        {
+                            badgesForm = new BadgesForm((Orientation)cbBadgesOrientation.SelectedIndex);
+                            badgesForm.Show();
+                        }
+                        badgesForm.BackColor = this.cpBadgesBackColor.Color;
+                        badgesForm.ForeColor = this.cpBadgesForeColor.Color;
+                    }
+                    catch
+                    {
+                        MessageBox.Show(Properties.Resources.InvalidOrientation);
+                        return;
+                    }
+                }));
             }
-            catch
+            else if (Program.IsMainThread)
             {
-                MessageBox.Show(Properties.Resources.InvalidOrientation);
-                return false;
-            }
+                try
+                {
+                    if (teamForm == null)
+                    {
+                        teamForm = new TeamForm((Orientation)cbTeamOrientation.SelectedIndex);
+                        teamForm.Show();
+                    }
+                    teamForm.ImageBackColor = this.cpTeamImageBackColor.Color;
+                    teamForm.ImageForeColor = this.cpTeamImageForeColor.Color;
+                    teamForm.TextBackColor = this.cpTeamTextBackColor.Color;
+                    teamForm.TextForeColor = this.cpTeamTextForeColor.Color;
+                }
+                catch
+                {
+                    MessageBox.Show(Properties.Resources.InvalidOrientation);
+                    return false;
+                }
 
-            if (badgesForm != null) badgesForm.Close();
-
-            try
-            {
-                badgesForm = new BadgesForm((Orientation)cbBadgesOrientation.SelectedIndex);
-                badgesForm.Show();
-                badgesForm.BackColor = this.cpBadgesBackColor.Color;
-                badgesForm.ForeColor = this.cpBadgesForeColor.Color;
-            }
-            catch
-            {
-                MessageBox.Show(Properties.Resources.InvalidOrientation);
-                return false;
+                try
+                {
+                    if (badgesForm == null)
+                    {
+                        badgesForm = new BadgesForm((Orientation)cbBadgesOrientation.SelectedIndex);
+                        badgesForm.Show();
+                    }
+                    badgesForm.BackColor = this.cpBadgesBackColor.Color;
+                    badgesForm.ForeColor = this.cpBadgesForeColor.Color;
+                }
+                catch
+                {
+                    MessageBox.Show(Properties.Resources.InvalidOrientation);
+                    return false;
+                }
             }
 
             Thread parseThread = new Thread(() =>

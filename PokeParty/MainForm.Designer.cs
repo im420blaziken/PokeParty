@@ -61,16 +61,16 @@ namespace PokeParty
             this.LowercaseOrLabel = new System.Windows.Forms.Label();
             this.lblAuthor = new System.Windows.Forms.Label();
             this.grpTeamAppearance = new System.Windows.Forms.GroupBox();
-            this.cbTeamOrientation = new System.Windows.Forms.ComboBox();
             this.lblTeamOrientation = new System.Windows.Forms.Label();
+            this.cbTeamOrientation = new System.Windows.Forms.ComboBox();
+            this.cpTeamTextForeColor = new PokeParty.ColorPicker();
+            this.cpTeamTextBackColor = new PokeParty.ColorPicker();
+            this.cpTeamTextSubColor = new PokeParty.ColorPicker();
+            this.cpTeamImageBackColor = new PokeParty.ColorPicker();
             this.btnRestoreDefaults = new System.Windows.Forms.Button();
             this.grpBadgeAppearence = new System.Windows.Forms.GroupBox();
             this.lblBadgeOrientation = new System.Windows.Forms.Label();
             this.cbBadgesOrientation = new System.Windows.Forms.ComboBox();
-            this.cpTeamTextForeColor = new PokeParty.ColorPicker();
-            this.cpTeamTextBackColor = new PokeParty.ColorPicker();
-            this.cpTeamImageForeColor = new PokeParty.ColorPicker();
-            this.cpTeamImageBackColor = new PokeParty.ColorPicker();
             this.cpBadgesForeColor = new PokeParty.ColorPicker();
             this.cpBadgesBackColor = new PokeParty.ColorPicker();
             this.grpFile.SuspendLayout();
@@ -133,11 +133,16 @@ namespace PokeParty
             this.grpTeamAppearance.Controls.Add(this.cbTeamOrientation);
             this.grpTeamAppearance.Controls.Add(this.cpTeamTextForeColor);
             this.grpTeamAppearance.Controls.Add(this.cpTeamTextBackColor);
-            this.grpTeamAppearance.Controls.Add(this.cpTeamImageForeColor);
+            this.grpTeamAppearance.Controls.Add(this.cpTeamTextSubColor);
             this.grpTeamAppearance.Controls.Add(this.cpTeamImageBackColor);
             resources.ApplyResources(this.grpTeamAppearance, "grpTeamAppearance");
             this.grpTeamAppearance.Name = "grpTeamAppearance";
             this.grpTeamAppearance.TabStop = false;
+            // 
+            // lblTeamOrientation
+            // 
+            resources.ApplyResources(this.lblTeamOrientation, "lblTeamOrientation");
+            this.lblTeamOrientation.Name = "lblTeamOrientation";
             // 
             // cbTeamOrientation
             // 
@@ -150,10 +155,37 @@ namespace PokeParty
             this.cbTeamOrientation.Name = "cbTeamOrientation";
             this.cbTeamOrientation.SelectedIndexChanged += new System.EventHandler(this.cbTeamOrientation_SelectedIndexChanged);
             // 
-            // lblTeamOrientation
+            // cpTeamTextForeColor
             // 
-            resources.ApplyResources(this.lblTeamOrientation, "lblTeamOrientation");
-            this.lblTeamOrientation.Name = "lblTeamOrientation";
+            this.cpTeamTextForeColor.Color = System.Drawing.Color.Black;
+            resources.ApplyResources(this.cpTeamTextForeColor, "cpTeamTextForeColor");
+            this.cpTeamTextForeColor.Name = "cpTeamTextForeColor";
+            this.cpTeamTextForeColor.Title = "Text ForeColor";
+            this.cpTeamTextForeColor.ColorChanged += new PokeParty.ColorPicker.ColorChangedEventHandler(this.TeamAppearance_ColorChanged);
+            // 
+            // cpTeamTextBackColor
+            // 
+            this.cpTeamTextBackColor.Color = System.Drawing.Color.Lime;
+            resources.ApplyResources(this.cpTeamTextBackColor, "cpTeamTextBackColor");
+            this.cpTeamTextBackColor.Name = "cpTeamTextBackColor";
+            this.cpTeamTextBackColor.Title = "Text BackColor";
+            this.cpTeamTextBackColor.ColorChanged += new PokeParty.ColorPicker.ColorChangedEventHandler(this.TeamAppearance_ColorChanged);
+            // 
+            // cpTeamTextSubColor
+            // 
+            this.cpTeamTextSubColor.Color = System.Drawing.SystemColors.Control;
+            resources.ApplyResources(this.cpTeamTextSubColor, "cpTeamTextSubColor");
+            this.cpTeamTextSubColor.Name = "cpTeamTextSubColor";
+            this.cpTeamTextSubColor.Title = "Text SubColor";
+            this.cpTeamTextSubColor.ColorChanged += new PokeParty.ColorPicker.ColorChangedEventHandler(this.TeamAppearance_ColorChanged);
+            // 
+            // cpTeamImageBackColor
+            // 
+            this.cpTeamImageBackColor.Color = System.Drawing.Color.Black;
+            resources.ApplyResources(this.cpTeamImageBackColor, "cpTeamImageBackColor");
+            this.cpTeamImageBackColor.Name = "cpTeamImageBackColor";
+            this.cpTeamImageBackColor.Title = "Image BackColor";
+            this.cpTeamImageBackColor.ColorChanged += new PokeParty.ColorPicker.ColorChangedEventHandler(this.TeamAppearance_ColorChanged);
             // 
             // btnRestoreDefaults
             // 
@@ -188,51 +220,19 @@ namespace PokeParty
             this.cbBadgesOrientation.Name = "cbBadgesOrientation";
             this.cbBadgesOrientation.SelectedIndexChanged += new System.EventHandler(this.cbBadgesOrientation_SelectedIndexChanged);
             // 
-            // cpTeamTextForeColor
-            // 
-            this.cpTeamTextForeColor.Color = System.Drawing.Color.Black;
-            resources.ApplyResources(this.cpTeamTextForeColor, "cpTeamTextForeColor");
-            this.cpTeamTextForeColor.Name = "cpTeamTextForeColor";
-            this.cpTeamTextForeColor.Title = "Text Foreground";
-            this.cpTeamTextForeColor.ColorChanged += new PokeParty.ColorPicker.ColorChangedEventHandler(this.TeamAppearance_ColorChanged);
-            // 
-            // cpTeamTextBackColor
-            // 
-            this.cpTeamTextBackColor.Color = System.Drawing.Color.Lime;
-            resources.ApplyResources(this.cpTeamTextBackColor, "cpTeamTextBackColor");
-            this.cpTeamTextBackColor.Name = "cpTeamTextBackColor";
-            this.cpTeamTextBackColor.Title = "Text Background";
-            this.cpTeamTextBackColor.ColorChanged += new PokeParty.ColorPicker.ColorChangedEventHandler(this.TeamAppearance_ColorChanged);
-            // 
-            // cpTeamImageForeColor
-            // 
-            this.cpTeamImageForeColor.Color = System.Drawing.SystemColors.Control;
-            resources.ApplyResources(this.cpTeamImageForeColor, "cpTeamImageForeColor");
-            this.cpTeamImageForeColor.Name = "cpTeamImageForeColor";
-            this.cpTeamImageForeColor.Title = "Image Foreground";
-            this.cpTeamImageForeColor.ColorChanged += new PokeParty.ColorPicker.ColorChangedEventHandler(this.TeamAppearance_ColorChanged);
-            // 
-            // cpTeamImageBackColor
-            // 
-            this.cpTeamImageBackColor.Color = System.Drawing.Color.Black;
-            resources.ApplyResources(this.cpTeamImageBackColor, "cpTeamImageBackColor");
-            this.cpTeamImageBackColor.Name = "cpTeamImageBackColor";
-            this.cpTeamImageBackColor.Title = "Image Background";
-            this.cpTeamImageBackColor.ColorChanged += new PokeParty.ColorPicker.ColorChangedEventHandler(this.TeamAppearance_ColorChanged);
-            // 
             // cpBadgesForeColor
             // 
             this.cpBadgesForeColor.Color = System.Drawing.SystemColors.Control;
             resources.ApplyResources(this.cpBadgesForeColor, "cpBadgesForeColor");
             this.cpBadgesForeColor.Name = "cpBadgesForeColor";
-            this.cpBadgesForeColor.Title = "Foreground";
+            this.cpBadgesForeColor.Title = "ForeColor";
             // 
             // cpBadgesBackColor
             // 
             this.cpBadgesBackColor.Color = System.Drawing.Color.Black;
             resources.ApplyResources(this.cpBadgesBackColor, "cpBadgesBackColor");
             this.cpBadgesBackColor.Name = "cpBadgesBackColor";
-            this.cpBadgesBackColor.Title = "Background";
+            this.cpBadgesBackColor.Title = "BackColor";
             this.cpBadgesBackColor.ColorChanged += new PokeParty.ColorPicker.ColorChangedEventHandler(this.BadgesAppearance_ColorChanged);
             // 
             // MainForm
@@ -280,7 +280,7 @@ namespace PokeParty
         private ColorPicker cpTeamImageBackColor;
         private ColorPicker cpTeamTextForeColor;
         private ColorPicker cpTeamTextBackColor;
-        private ColorPicker cpTeamImageForeColor;
+        private ColorPicker cpTeamTextSubColor;
         private Label lblTeamOrientation;
         private ComboBox cbTeamOrientation;
         private Button btnRestoreDefaults;

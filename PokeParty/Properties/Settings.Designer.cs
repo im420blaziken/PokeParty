@@ -61,13 +61,13 @@ namespace PokeParty.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Transparent")]
-        public global::System.Drawing.Color TeamImageForeColor {
+        [global::System.Configuration.DefaultSettingValueAttribute("DimGray")]
+        public global::System.Drawing.Color TeamTextSubColor {
             get {
-                return ((global::System.Drawing.Color)(this["TeamImageForeColor"]));
+                return ((global::System.Drawing.Color)(this["TeamTextSubColor"]));
             }
             set {
-                this["TeamImageForeColor"] = value;
+                this["TeamTextSubColor"] = value;
             }
         }
         

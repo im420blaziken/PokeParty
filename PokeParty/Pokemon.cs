@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ namespace PokeParty
         private byte _level = 0;
         private short _currenthp = 0;
         private short _totalhp = 0;
+        private StatusType _statusCondition = 0;
 
         public Pokemon(GameType version, short species, byte level)
         {
@@ -196,6 +198,67 @@ namespace PokeParty
         {
             get { return _totalhp; }
             set { _totalhp = value; }
+        }
+
+        public enum StatusType
+        {
+            NONE        = 0,
+            SLEEP       = 3, // 0b111, wow C# is underpowered
+            POISON      = 1 << 3,
+            BURN        = 1 << 4,
+            FREEZE      = 1 << 5,
+            PARALYSIS   = 1 << 6,
+            BAD_POISON  = 1 << 7
+        }
+        public StatusType StatusCondition
+        {
+            get { return _statusCondition; }
+            set { _statusCondition = value; }
+        }
+        public StatusType ProminentStatusCondition
+        {
+            get
+            {
+                Array types = Enum.GetValues(typeof(StatusType));
+                Array.Reverse(types);
+                foreach (StatusType mask in types)
+                {
+                    if ((mask & this.StatusCondition) > 0) return (StatusType)mask;
+                }
+                return StatusType.NONE;
+            }
+        }
+
+        static private Dictionary<StatusType, String> _statusShorthands = new Dictionary<StatusType, string>()
+        {
+            { StatusType.NONE, "" },
+            { StatusType.SLEEP, "SLP" },
+            { StatusType.POISON, "PSN" },
+            { StatusType.BURN, "BRN" },
+            { StatusType.FREEZE, "FRZ" },
+            { StatusType.PARALYSIS, "PAR" },
+            { StatusType.BAD_POISON, "PSN" }
+        };
+        static public String GetStatusShorthand(StatusType status)
+        {
+            if (_statusShorthands.ContainsKey(status)) return _statusShorthands[status];
+            return GetStatusShorthand(StatusType.NONE);
+        }
+
+        static private Dictionary<StatusType, Color> _statusColors = new Dictionary<StatusType, Color>()
+        {
+            { StatusType.NONE, Color.Empty },
+            { StatusType.SLEEP, Color.DimGray },
+            { StatusType.POISON, Color.BlueViolet },
+            { StatusType.BURN, Color.Firebrick },
+            { StatusType.FREEZE, Color.PowderBlue },
+            { StatusType.PARALYSIS, Color.Orange },
+            { StatusType.BAD_POISON, Color.DarkMagenta }
+        };
+        static public Color GetStatusColor(StatusType status)
+        {
+            if (_statusColors.ContainsKey(status)) return _statusColors[status];
+            return GetStatusColor(StatusType.NONE);
         }
     }
 }

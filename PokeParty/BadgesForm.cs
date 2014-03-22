@@ -42,19 +42,13 @@ namespace PokeParty
         }
 
         private void LayoutBadges(Orientation value) {
-            if (this.InvokeRequired)
-            {
-                this.Invoke(new Action(
-                    () =>
-                    {
-                        foreach (PictureBox pb in this._badges) this.Controls.Remove(pb);
-                    })
-                );
-            }
-            else if (Program.IsMainThread)
+            Action removeBadges = () =>
             {
                 foreach (PictureBox pb in this._badges) this.Controls.Remove(pb);
-            }
+            };
+
+            if (this.InvokeRequired) this.Invoke(removeBadges);
+            else if (Program.IsMainThread) removeBadges();
             
             this._badges.Clear();
             this._animators.Clear();
@@ -101,21 +95,14 @@ namespace PokeParty
             maxwidth = Math.Max(32, maxwidth);
             maxheight = Math.Max(32, maxheight);
 
-            if (this.InvokeRequired)
-            {
-                this.Invoke(new Action(
-                    () =>
-                    {
-                        this.ClientSize = new Size(maxwidth, maxheight);
-                        foreach (PictureBox pb in this._badges) this.Controls.Add(pb);
-                    })
-                );
-            }
-            else if (Program.IsMainThread)
+            Action addBadges = () =>
             {
                 this.ClientSize = new Size(maxwidth, maxheight);
                 foreach (PictureBox pb in this._badges) this.Controls.Add(pb);
-            }
+            };
+
+            if (this.InvokeRequired) this.Invoke(addBadges);
+            else if (Program.IsMainThread) addBadges();
         }
 
         Orientation _orientation;
@@ -125,19 +112,14 @@ namespace PokeParty
             set {
                 this._orientation = value;
 
-                if (this.InvokeRequired)
-                {
-                    this.Invoke(new Action(
-                        () =>
-                        {
-                            LayoutBadges(value);
-                        })
-                    );
-                }
-                else if (Program.IsMainThread)
+                Action layoutBadges = () =>
                 {
                     LayoutBadges(value);
-                }
+                };
+
+                if (this.InvokeRequired) this.Invoke(layoutBadges);
+                else if (Program.IsMainThread) layoutBadges();
+
                 ShowBadges(this._badgeFlags, this._game);
             }
         }
@@ -208,26 +190,13 @@ namespace PokeParty
                         {
                             image = AnimatedSprite.FixedSize(image, badge.Width - 16, badge.Height - 16, this.BackColor);
 
-                            if (this.InvokeRequired)
-                            {
-                                this.Invoke(new Action(
-                                    () =>
-                                    {
-                                        badge.Image = image;
-                                        Console.WriteLine("is not main thread.");
-                                    })
-                                );
-                            }
-                            else if (Program.IsMainThread)
+                            Action setBadgeImage = () =>
                             {
                                 badge.Image = image;
-                                Console.WriteLine("is main thread.");
-                            }
-                            else
-                            {
-                                Console.WriteLine("is not main thread2.");
-                            }
-                            Console.WriteLine("Showing Badge!");
+                            };
+
+                            if (this.InvokeRequired) this.Invoke(setBadgeImage);
+                            else if (Program.IsMainThread) setBadgeImage();
                         }
                         catch
                         {

@@ -43,17 +43,25 @@ namespace PokeParty
             InitializeComponent();
 
             txtFilePath.Text = (defaultPath == null) ? "" : defaultPath;
+            LoadSettings();
+        }
+
+        private void LoadSettings()
+        {
             if (txtFilePath.Text.Length == 0) txtFilePath.Text = Properties.Settings.Default.FilePath;
 
             // Other Settings
             this.cbTeamOrientation.SelectedIndex = Properties.Settings.Default.TeamOrientation;
             this.cpTeamImageBackColor.Color = Properties.Settings.Default.TeamImageBackColor;
-            this.cpTeamImageForeColor.Color = Properties.Settings.Default.TeamImageForeColor;
+            this.cpTeamTextSubColor.Color = Properties.Settings.Default.TeamTextSubColor;
             this.cpTeamTextBackColor.Color = Properties.Settings.Default.TeamTextBackColor;
             this.cpTeamTextForeColor.Color = Properties.Settings.Default.TeamTextForeColor;
             this.cbBadgesOrientation.SelectedIndex = Properties.Settings.Default.BadgesOrientation;
             this.cpBadgesBackColor.Color = Properties.Settings.Default.BadgesBackColor;
             this.cpBadgesForeColor.Color = Properties.Settings.Default.BadgesForeColor;
+
+            Properties.Settings.Default.FilePath = txtFilePath.Text;
+            Properties.Settings.Default.Save();
         }
 
         private void btnBrowseDirectory_Click(object sender, EventArgs e)
@@ -118,46 +126,7 @@ namespace PokeParty
                 return false;
             }
 
-            if (this.InvokeRequired)
-            {
-                this.Invoke(new Action(() =>
-                {
-                    try
-                    {
-                        if (teamForm == null)
-                        {
-                            teamForm = new TeamForm((Orientation)cbTeamOrientation.SelectedIndex);
-                            teamForm.Show();
-                        }
-                        teamForm.ImageBackColor = this.cpTeamImageBackColor.Color;
-                        teamForm.ImageForeColor = this.cpTeamImageForeColor.Color;
-                        teamForm.TextBackColor = this.cpTeamTextBackColor.Color;
-                        teamForm.TextForeColor = this.cpTeamTextForeColor.Color;
-                    }
-                    catch
-                    {
-                        MessageBox.Show(Properties.Resources.InvalidOrientation);
-                        return;
-                    }
-
-                    try
-                    {
-                        if (badgesForm == null)
-                        {
-                            badgesForm = new BadgesForm((Orientation)cbBadgesOrientation.SelectedIndex);
-                            badgesForm.Show();
-                        }
-                        badgesForm.BackColor = this.cpBadgesBackColor.Color;
-                        badgesForm.ForeColor = this.cpBadgesForeColor.Color;
-                    }
-                    catch
-                    {
-                        MessageBox.Show(Properties.Resources.InvalidOrientation);
-                        return;
-                    }
-                }));
-            }
-            else if (Program.IsMainThread)
+            Action applySettings = () =>
             {
                 try
                 {
@@ -167,14 +136,14 @@ namespace PokeParty
                         teamForm.Show();
                     }
                     teamForm.ImageBackColor = this.cpTeamImageBackColor.Color;
-                    teamForm.ImageForeColor = this.cpTeamImageForeColor.Color;
+                    teamForm.TextSubColor = this.cpTeamTextSubColor.Color;
                     teamForm.TextBackColor = this.cpTeamTextBackColor.Color;
                     teamForm.TextForeColor = this.cpTeamTextForeColor.Color;
                 }
                 catch
                 {
                     MessageBox.Show(Properties.Resources.InvalidOrientation);
-                    return false;
+                    return;
                 }
 
                 try
@@ -190,9 +159,12 @@ namespace PokeParty
                 catch
                 {
                     MessageBox.Show(Properties.Resources.InvalidOrientation);
-                    return false;
+                    return;
                 }
-            }
+            };
+
+            if (this.InvokeRequired) this.Invoke(applySettings);
+            else if (Program.IsMainThread) applySettings();
 
             Thread parseThread = new Thread(() =>
             {
@@ -296,16 +268,16 @@ namespace PokeParty
             if (teamForm != null)
             {
                 switch (sender.Name) {
-                    case "cpImageBackColor":
+                    case "cpTeamImageBackColor":
                         Properties.Settings.Default.TeamImageBackColor = teamForm.ImageBackColor = sender.Color;
                         break;
-                    case "cpImageForeColor":
-                        Properties.Settings.Default.TeamImageForeColor = teamForm.ImageForeColor = sender.Color;
+                    case "cpTeamTextSubColor":
+                        Properties.Settings.Default.TeamTextSubColor = teamForm.TextSubColor = sender.Color;
                         break;
-                    case "cpTextBackColor":
+                    case "cpTeamTextBackColor":
                         Properties.Settings.Default.TeamTextBackColor = teamForm.TextBackColor = sender.Color;
                         break;
-                    case "cpTextForeColor":
+                    case "cpTeamTextForeColor":
                         Properties.Settings.Default.TeamTextForeColor = teamForm.TextForeColor = sender.Color;
                         break;
                 }
@@ -360,16 +332,8 @@ namespace PokeParty
 
         private void btnRestoreDefaults_Click(object sender, EventArgs e)
         {
-            Properties.Settings.Default.FilePath = txtFilePath.Text = "";
-            Properties.Settings.Default.TeamOrientation = cbTeamOrientation.SelectedIndex = 0;
-            Properties.Settings.Default.TeamImageBackColor = cpTeamImageBackColor.Color = Color.Black;
-            Properties.Settings.Default.TeamImageForeColor = cpTeamImageForeColor.Color = Color.Transparent;
-            Properties.Settings.Default.TeamTextBackColor = cpTeamTextBackColor.Color = Color.Lime;
-            Properties.Settings.Default.TeamTextForeColor = cpTeamTextForeColor.Color = Color.Black;
-            Properties.Settings.Default.BadgesOrientation = cbTeamOrientation.SelectedIndex = 0;
-            Properties.Settings.Default.BadgesBackColor = cpBadgesBackColor.Color = Color.Lime;
-            Properties.Settings.Default.BadgesForeColor = cpBadgesForeColor.Color = Color.Transparent;
-            Properties.Settings.Default.Save();
+            Properties.Settings.Default.Reset();
+            LoadSettings();
         }
 
     }

@@ -117,56 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="&gt;&gt;btnBrowse.Name" xml:space="preserve">
-    <value>btnBrowse</value>
-  </data>
-  <data name="&gt;&gt;btnBrowse.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnBrowse.Parent" xml:space="preserve">
-    <value>grpFile</value>
-  </data>
-  <data name="&gt;&gt;btnBrowse.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;txtFilePath.Name" xml:space="preserve">
-    <value>txtFilePath</value>
-  </data>
-  <data name="&gt;&gt;txtFilePath.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;txtFilePath.Parent" xml:space="preserve">
-    <value>grpFile</value>
-  </data>
-  <data name="&gt;&gt;txtFilePath.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="grpFile.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 12</value>
-  </data>
-  <data name="grpFile.Size" type="System.Drawing.Size, System.Drawing">
-    <value>264, 81</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="grpFile.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="grpFile.Text" xml:space="preserve">
-    <value>Save State File (.sgm)</value>
-  </data>
-  <data name="&gt;&gt;grpFile.Name" xml:space="preserve">
-    <value>grpFile</value>
-  </data>
-  <data name="&gt;&gt;grpFile.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;grpFile.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;grpFile.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="btnBrowse.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -174,12 +124,14 @@
   <data name="btnBrowse.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="btnBrowse.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 41</value>
   </data>
   <data name="btnBrowse.Size" type="System.Drawing.Size, System.Drawing">
     <value>252, 34</value>
   </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="btnBrowse.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
@@ -221,6 +173,30 @@
   </data>
   <data name="&gt;&gt;txtFilePath.ZOrder" xml:space="preserve">
     <value>1</value>
+  </data>
+  <data name="grpFile.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 12</value>
+  </data>
+  <data name="grpFile.Size" type="System.Drawing.Size, System.Drawing">
+    <value>264, 81</value>
+  </data>
+  <data name="grpFile.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="grpFile.Text" xml:space="preserve">
+    <value>Save State File (.sgm)</value>
+  </data>
+  <data name="&gt;&gt;grpFile.Name" xml:space="preserve">
+    <value>grpFile</value>
+  </data>
+  <data name="&gt;&gt;grpFile.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;grpFile.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;grpFile.ZOrder" xml:space="preserve">
+    <value>5</value>
   </data>
   <data name="btnWatch.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -444,28 +420,25 @@
   <data name="&gt;&gt;cpTeamTextBackColor.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="cpTeamImageForeColor.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="cpTeamImageForeColor.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="cpTeamTextSubColor.Location" type="System.Drawing.Point, System.Drawing">
     <value>134, 47</value>
   </data>
-  <data name="cpTeamImageForeColor.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="cpTeamTextSubColor.Size" type="System.Drawing.Size, System.Drawing">
     <value>122, 50</value>
   </data>
-  <data name="cpTeamImageForeColor.TabIndex" type="System.Int32, mscorlib">
+  <data name="cpTeamTextSubColor.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="&gt;&gt;cpTeamImageForeColor.Name" xml:space="preserve">
-    <value>cpTeamImageForeColor</value>
+  <data name="&gt;&gt;cpTeamTextSubColor.Name" xml:space="preserve">
+    <value>cpTeamTextSubColor</value>
   </data>
-  <data name="&gt;&gt;cpTeamImageForeColor.Type" xml:space="preserve">
+  <data name="&gt;&gt;cpTeamTextSubColor.Type" xml:space="preserve">
     <value>PokeParty.ColorPicker, PokeParty, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;cpTeamImageForeColor.Parent" xml:space="preserve">
+  <data name="&gt;&gt;cpTeamTextSubColor.Parent" xml:space="preserve">
     <value>grpTeamAppearance</value>
   </data>
-  <data name="&gt;&gt;cpTeamImageForeColor.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;cpTeamTextSubColor.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
   <data name="cpTeamImageBackColor.Location" type="System.Drawing.Point, System.Drawing">
@@ -545,78 +518,6 @@
   </data>
   <data name="&gt;&gt;btnRestoreDefaults.ZOrder" xml:space="preserve">
     <value>1</value>
-  </data>
-  <data name="&gt;&gt;lblBadgeOrientation.Name" xml:space="preserve">
-    <value>lblBadgeOrientation</value>
-  </data>
-  <data name="&gt;&gt;lblBadgeOrientation.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblBadgeOrientation.Parent" xml:space="preserve">
-    <value>grpBadgeAppearence</value>
-  </data>
-  <data name="&gt;&gt;lblBadgeOrientation.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;cbBadgesOrientation.Name" xml:space="preserve">
-    <value>cbBadgesOrientation</value>
-  </data>
-  <data name="&gt;&gt;cbBadgesOrientation.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;cbBadgesOrientation.Parent" xml:space="preserve">
-    <value>grpBadgeAppearence</value>
-  </data>
-  <data name="&gt;&gt;cbBadgesOrientation.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;cpBadgesForeColor.Name" xml:space="preserve">
-    <value>cpBadgesForeColor</value>
-  </data>
-  <data name="&gt;&gt;cpBadgesForeColor.Type" xml:space="preserve">
-    <value>PokeParty.ColorPicker, PokeParty, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;cpBadgesForeColor.Parent" xml:space="preserve">
-    <value>grpBadgeAppearence</value>
-  </data>
-  <data name="&gt;&gt;cpBadgesForeColor.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;cpBadgesBackColor.Name" xml:space="preserve">
-    <value>cpBadgesBackColor</value>
-  </data>
-  <data name="&gt;&gt;cpBadgesBackColor.Type" xml:space="preserve">
-    <value>PokeParty.ColorPicker, PokeParty, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;cpBadgesBackColor.Parent" xml:space="preserve">
-    <value>grpBadgeAppearence</value>
-  </data>
-  <data name="&gt;&gt;cpBadgesBackColor.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="grpBadgeAppearence.Location" type="System.Drawing.Point, System.Drawing">
-    <value>278, 176</value>
-  </data>
-  <data name="grpBadgeAppearence.Size" type="System.Drawing.Size, System.Drawing">
-    <value>264, 104</value>
-  </data>
-  <data name="grpBadgeAppearence.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="grpBadgeAppearence.Text" xml:space="preserve">
-    <value>Badge Appearance</value>
-  </data>
-  <data name="&gt;&gt;grpBadgeAppearence.Name" xml:space="preserve">
-    <value>grpBadgeAppearence</value>
-  </data>
-  <data name="&gt;&gt;grpBadgeAppearence.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;grpBadgeAppearence.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;grpBadgeAppearence.ZOrder" xml:space="preserve">
-    <value>0</value>
   </data>
   <data name="lblBadgeOrientation.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -720,6 +621,30 @@
   <data name="&gt;&gt;cpBadgesBackColor.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <data name="grpBadgeAppearence.Location" type="System.Drawing.Point, System.Drawing">
+    <value>278, 176</value>
+  </data>
+  <data name="grpBadgeAppearence.Size" type="System.Drawing.Size, System.Drawing">
+    <value>264, 104</value>
+  </data>
+  <data name="grpBadgeAppearence.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="grpBadgeAppearence.Text" xml:space="preserve">
+    <value>Badge Appearance</value>
+  </data>
+  <data name="&gt;&gt;grpBadgeAppearence.Name" xml:space="preserve">
+    <value>grpBadgeAppearence</value>
+  </data>
+  <data name="&gt;&gt;grpBadgeAppearence.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;grpBadgeAppearence.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;grpBadgeAppearence.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -728,9 +653,6 @@
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>551, 314</value>
-  </data>
-  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterScreen</value>

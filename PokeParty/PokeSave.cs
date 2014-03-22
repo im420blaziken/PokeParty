@@ -61,7 +61,7 @@ namespace PokeParty
                     { OffsetType.SAVESTATE, 0x2B894 },
                     { OffsetType.TEAM_LIST, 0x1234 },
                     //{ OffsetType.BADGES, 0x3A7D }
-                    { OffsetType.BADGES, 0x3A56 }
+                    { OffsetType.BADGES, 0x396C }
                 }
             },
         };
@@ -243,6 +243,7 @@ namespace PokeParty
                             dataReader.BaseStream.Position = 0;
 
                             short species = -1;
+                            int iv = 0;
                             for (int j = 0; j < 4; j++)
                             {
                                 switch (FormatOrder[order, j])
@@ -252,17 +253,30 @@ namespace PokeParty
                                         species = IPAddress.HostToNetworkOrder(dataReader.ReadInt16()); // Species
                                         dataReader.BaseStream.Seek(8, SeekOrigin.Current);
                                         break;
+                                    case FormatStructure.MISC:
+                                        dataReader.ReadInt32();
+                                        iv = IPAddress.HostToNetworkOrder(dataReader.ReadInt32());
+                                        dataReader.ReadInt32();
+                                        break;
                                     default:
                                         dataReader.BaseStream.Seek(12, SeekOrigin.Current);
                                         break;
                                 }
                             }
+                            if ((iv & 1 << 30) > 0) species = 0x19C;
+                            Console.WriteLine("IV: " + iv);
 
-                            br.ReadInt32(); // Status ailment
+                            Pokemon.StatusType status_condition = (Pokemon.StatusType)br.ReadInt32(); // Status Condition
                             byte level = br.ReadByte(); // Level
+                            br.ReadByte(); // Pokerus remaining
+                            short current_hp = br.ReadInt16();
+                            short total_hp = br.ReadInt16();
 
                             Pokemon p = new Pokemon(_currentGame, species, level);
-                            Console.WriteLine("Pkmn " + i + " is species: " + p.Species + " (" + p.Name + "), level: " + p.Level);
+                            p.StatusCondition = status_condition;
+                            p.CurrentHP = current_hp;
+                            p.TotalHP = total_hp;
+                            Console.WriteLine("Pkmn " + i + " is species: " + p.Species + " (" + p.Name + "), level: " + p.Level + ", current hp: " + p.CurrentHP + ", total hp: " + p.TotalHP);
                             _team.Add(p);
                         }
                     }
@@ -291,8 +305,7 @@ namespace PokeParty
                         for (int i = 0; i < 500; i++)
                         {
                             // 87 FD 6D 73 EB FD 6C FD 73
-                            if (buf[i] == 0x87 && buf[i+1] == 0xFD && buf[i+2] == 0x6D && buf[i+3] == 0x73 && buf[i+4] == 0xEB && buf[i+5] == 0xFD && buf[i+6] == 0x6C
-                                && buf[i + 7] == 0xFD && buf[i + 8] == 0x73)
+                            if (buf[i] == 0x87 && buf[i+1] == 0xFD && buf[i+2] == 0x6D && buf[i+3] == 0x73 && buf[i+4] == 0xEB && buf[i+5] == 0xFD && buf[i+6] == 0x6C)
                             {
                                 _badges = buf[i + 0x38];
                                 /*int zeroes = 0;

@@ -11,8 +11,8 @@
     <Setting Name="TeamImageBackColor" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">Black</Value>
     </Setting>
-    <Setting Name="TeamImageForeColor" Type="System.Drawing.Color" Scope="User">
-      <Value Profile="(Default)">Transparent</Value>
+    <Setting Name="TeamTextSubColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">DimGray</Value>
     </Setting>
     <Setting Name="TeamTextBackColor" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">Lime</Value>

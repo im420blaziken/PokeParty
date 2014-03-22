@@ -157,7 +157,7 @@ namespace PokeParty
             this.lblSlotOneLevel.Name = "lblSlotOneLevel";
             this.lblSlotOneLevel.Size = new System.Drawing.Size(64, 77);
             this.lblSlotOneLevel.TabIndex = 11;
-            this.lblSlotOneLevel.Text = ":L";
+            this.lblSlotOneLevel.Text = ":L\r\n:HP 50%";
             this.lblSlotOneLevel.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // lblSlotTwoLevel
@@ -170,7 +170,7 @@ namespace PokeParty
             this.lblSlotTwoLevel.Name = "lblSlotTwoLevel";
             this.lblSlotTwoLevel.Size = new System.Drawing.Size(64, 77);
             this.lblSlotTwoLevel.TabIndex = 12;
-            this.lblSlotTwoLevel.Text = ":L";
+            this.lblSlotTwoLevel.Text = ":L\r\n:HP 50%";
             this.lblSlotTwoLevel.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // lblSlotThreeLevel
@@ -183,7 +183,7 @@ namespace PokeParty
             this.lblSlotThreeLevel.Name = "lblSlotThreeLevel";
             this.lblSlotThreeLevel.Size = new System.Drawing.Size(64, 77);
             this.lblSlotThreeLevel.TabIndex = 13;
-            this.lblSlotThreeLevel.Text = ":L";
+            this.lblSlotThreeLevel.Text = ":L\r\n:HP 50%";
             this.lblSlotThreeLevel.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // lblSlotFourLevel
@@ -196,7 +196,7 @@ namespace PokeParty
             this.lblSlotFourLevel.Name = "lblSlotFourLevel";
             this.lblSlotFourLevel.Size = new System.Drawing.Size(64, 77);
             this.lblSlotFourLevel.TabIndex = 14;
-            this.lblSlotFourLevel.Text = ":L";
+            this.lblSlotFourLevel.Text = ":L\r\n:HP 50%";
             this.lblSlotFourLevel.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // lblSlotFiveLevel
@@ -209,7 +209,7 @@ namespace PokeParty
             this.lblSlotFiveLevel.Name = "lblSlotFiveLevel";
             this.lblSlotFiveLevel.Size = new System.Drawing.Size(64, 77);
             this.lblSlotFiveLevel.TabIndex = 15;
-            this.lblSlotFiveLevel.Text = ":L";
+            this.lblSlotFiveLevel.Text = ":L\r\n:HP 50%";
             this.lblSlotFiveLevel.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // lblSlotSixLevel
@@ -222,7 +222,7 @@ namespace PokeParty
             this.lblSlotSixLevel.Name = "lblSlotSixLevel";
             this.lblSlotSixLevel.Size = new System.Drawing.Size(64, 77);
             this.lblSlotSixLevel.TabIndex = 16;
-            this.lblSlotSixLevel.Text = ":L";
+            this.lblSlotSixLevel.Text = ":L\r\n:HP 50%";
             this.lblSlotSixLevel.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // TeamForm

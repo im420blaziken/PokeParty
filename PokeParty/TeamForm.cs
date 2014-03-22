@@ -94,18 +94,19 @@ namespace PokeParty
             }
         }
 
-        public Color ImageForeColor
+        private Color _textSubColor;
+        public Color TextSubColor
         {
             get
             {
-                return this.ForeColor;
+                return this._textSubColor;
             }
             set
             {
-                this.ForeColor = value;
-                foreach (PictureBox pb in this.slots)
+                this._textSubColor = value;
+                foreach (Label label in this.slotLevels)
                 {
-                    pb.ForeColor = value;
+                    if (label.ForeColor != this.TextForeColor) label.ForeColor = value;
                 }
             }
         }
@@ -132,11 +133,11 @@ namespace PokeParty
             }
             set
             {
-                this.pbLevelBackground.ForeColor = value;
                 foreach (Label label in this.slotLevels)
                 {
-                    label.ForeColor = value;
+                    if (label.ForeColor == this.pbLevelBackground.ForeColor) label.ForeColor = value;
                 }
+                this.pbLevelBackground.ForeColor = value;
             }
         }
 
@@ -312,79 +313,80 @@ namespace PokeParty
                     if (!File.Exists(sprite_file))
                     {
                         Console.WriteLine("Sprite file does not exist: " + sprite_file);
-                        continue;
                     }
-
-                    Image image = null;
-                    try
+                    else
                     {
-                        image = AnimatedSprite.CleanImageFromFile(sprite_file);
-                    }
-                    catch
-                    {
-                        Console.WriteLine("Error loading sprite image.");
-                    }
-
-                    _images[i].Clear();
-                    if (image == null) continue;
-                    else _images[i].Add(image);
-                    /*for (int alt = 2; alt <= 5; alt++)
-                    {
-                        string local_resource_name = @"poke_sprites/" + pokes[i].Name.ToLower() + "-" + alt.ToString() + ".gif";
-                        if (File.Exists(local_resource_name))
+                        Image image = null;
+                        try
                         {
-                            _images[i].Add(Image.FromFile(local_resource_name));
+                            image = AnimatedSprite.CleanImageFromFile(sprite_file);
                         }
-                        else break;
-                    }*/
+                        catch
+                        {
+                            Console.WriteLine("Error loading sprite image.");
+                        }
 
-                    // Let Paint draw it.
-                    slots[i].Image = null;
-                    try
-                    {
-                        slots[i].Tag = new AnimatedSprite(slots[i], _images[i]);
+                        _images[i].Clear();
+                        if (image != null)
+                        {
+                            _images[i].Add(image);
+                            /*for (int alt = 2; alt <= 5; alt++)
+                            {
+                                string local_resource_name = @"poke_sprites/" + pokes[i].Name.ToLower() + "-" + alt.ToString() + ".gif";
+                                if (File.Exists(local_resource_name))
+                                {
+                                    _images[i].Add(Image.FromFile(local_resource_name));
+                                }
+                                else break;
+                            }*/
+
+                            // Let Paint draw it.
+                            slots[i].Image = null;
+                            try
+                            {
+                                slots[i].Tag = new AnimatedSprite(slots[i], _images[i]);
+                            }
+                            catch
+                            {
+                                slots[i].Tag = null;
+                                Console.WriteLine("Unable to create AnimatedSprite.");
+                            };
+                        }
                     }
-                    catch
-                    {
-                        slots[i].Tag = null;
-                        Console.WriteLine("Unable to create AnimatedSprite.");
-                    };
+
+                    int max_chars = slotLevels[i].Width / 8;
+                    string hp_percent = ((int)((double)pokes[i].CurrentHP / (double)pokes[i].TotalHP * (double)100)).ToString() + "%";
+                    string status_condition = (pokes[i].CurrentHP == 0) ? "FNT" : Pokemon.GetStatusShorthand(pokes[i].ProminentStatusCondition);
 
                     // Pokemon Levels
-                    if (this.InvokeRequired)
+                    Action updateInterface = () =>
                     {
-                        this.Invoke(new Action(
-                            () =>
-                            {
-                                if (pokes[i].Level != 0) slotLevels[i].Text = ":L" + pokes[i].Level.ToString();
-                                else slotLevels[i].Text = ":Egg";
-                                slotLevels[i].Visible = true;
-                            })
-                        );
-                    }
-                    else if (Program.IsMainThread)
-                    {
-                        if (pokes[i].Level != 0) slotLevels[i].Text = ":L" + pokes[i].Level.ToString();
+                        if (pokes[i].Level != 0)
+                        {
+                            slotLevels[i].Text = (":L" + pokes[i].Level.ToString()).PadRight(max_chars - status_condition.Length) + status_condition;
+
+                            slotLevels[i].Text += Environment.NewLine + ":HP".PadRight(max_chars - hp_percent.Length) + hp_percent;
+                            if (pokes[i].CurrentHP == 0) slotLevels[i].ForeColor = this.TextSubColor;
+                            else if (pokes[i].StatusCondition != Pokemon.StatusType.NONE) slotLevels[i].ForeColor = Pokemon.GetStatusColor(pokes[i].ProminentStatusCondition);
+                            else slotLevels[i].ForeColor = this.TextForeColor;
+                        }
                         else slotLevels[i].Text = ":Egg";
                         slotLevels[i].Visible = true;
-                    }
+                    };
+
+                    if (this.InvokeRequired) this.Invoke(updateInterface);
+                    else if (Program.IsMainThread) updateInterface();
                 }
 
                 for (int i = pokes.Count; i < 6; i++)
                 {
-                    if (this.InvokeRequired)
-                    {
-                        this.Invoke(new Action(
-                            () =>
-                            {
-                                slotLevels[i].Visible = false;
-                            })
-                        );
-                    }
-                    else if (Program.IsMainThread)
+                    Action hideLabel = () =>
                     {
                         slotLevels[i].Visible = false;
-                    }
+                    };
+
+                    if (this.InvokeRequired) this.Invoke(hideLabel);
+                    else if (Program.IsMainThread) hideLabel();
                 }
             }
             catch (Exception e)

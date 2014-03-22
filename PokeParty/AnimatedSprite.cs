@@ -170,6 +170,8 @@ namespace PokeParty
                 }
                 destWidth = _destWidth;
                 destHeight = _destHeight;
+
+                destY = Height - destHeight;
             }
 
             Bitmap bmPhoto = new Bitmap(Width, Height,

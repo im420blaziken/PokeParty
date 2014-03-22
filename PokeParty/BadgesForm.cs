@@ -170,9 +170,9 @@ namespace PokeParty
                     PictureBox badge = this._badges[i];
                     if (badge.Tag == null) continue;
 
-                    Console.WriteLine("Found Badge #" + (i + 1).ToString() + ": " + badge.Tag + "! At location: " + badge.Location.ToString() + ", size: " + badge.Size.ToString());
+                    Console.WriteLine("Found " + badge.Tag + "! At location: " + badge.Location.ToString() + ", size: " + badge.Size.ToString());
 
-                    string webname = (i + 1).ToString() + badge.Tag.ToString().Split(' ').First().ToLower();
+                    string webname = badge.Tag.ToString().Split(' ').First().ToLower();
 
                     string local_resource = @"poke_sprites/" + webname + ".png";
                     if (!Directory.Exists(@"poke_sprites"))

@@ -99,7 +99,7 @@ namespace PokeParty
 
             if (this.fsw == null) return;
 
-            this.btnCheckSave.Enabled = this.btnBrowse.Enabled = !(this.fsw.EnableRaisingEvents = isWatching);
+            this.txtFilePath.Enabled = this.btnCheckSave.Enabled = this.btnBrowse.Enabled = !(this.fsw.EnableRaisingEvents = isWatching);
             this.btnWatch.Text = watchText[(isWatching) ? 1 : 0];
         }
 
@@ -109,6 +109,7 @@ namespace PokeParty
         }
 
         private object _parselock = new object();
+        int save_count = 0;
         private bool ParseFile()
         {
             if (txtFilePath.Text.Length == 0 || !File.Exists(txtFilePath.Text))
@@ -197,8 +198,22 @@ namespace PokeParty
             {
                 if (Monitor.TryEnter(_parselock))
                 {
+                    try // Periodically backup the file
+                    {
+                        if (save_count++ % 5 == 0)
+                        {
+                            if (Directory.Exists("save_backups") == false) Directory.CreateDirectory("save_backups");
+                            File.Copy(txtFilePath.Text, @"save_backups\" + DateTime.Now.ToLocalTime().ToString("yyyy_MM_dd_hh_mm_") + Path.GetFileName(txtFilePath.Text));
+                        }
+                    }
+                    catch
+                    {
+                        Console.WriteLine("Unable to backup the save.");
+                    }
+
                     try
                     {
+
                         PokeSave save = new PokeSave(txtFilePath.Text);
                         try
                         {

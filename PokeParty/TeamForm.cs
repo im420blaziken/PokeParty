@@ -181,7 +181,7 @@ namespace PokeParty
                             maxheight += label.Height;
                             maxwidth += label.Width - width;
                         }
-                        label.SendToBack();
+                        label.BringToFront();
                     }
                     this.pbLevelBackground.SendToBack();
 
@@ -363,9 +363,10 @@ namespace PokeParty
                     {
                         if (pokes[i].Level != 0)
                         {
-                            slotLevels[i].Text = (":L" + pokes[i].Level.ToString()).PadRight(max_chars - status_condition.Length) + status_condition;
-
+                            slotLevels[i].Text = (pokes[i].Nickname != null) ? pokes[i].Nickname : "";
+                            slotLevels[i].Text += Environment.NewLine + (":L" + pokes[i].Level.ToString()).PadRight(max_chars - status_condition.Length) + status_condition;
                             slotLevels[i].Text += Environment.NewLine + ":HP".PadRight(max_chars - hp_percent.Length) + hp_percent;
+
                             if (pokes[i].CurrentHP == 0) slotLevels[i].ForeColor = this.TextSubColor;
                             else if (pokes[i].StatusCondition != Pokemon.StatusType.NONE) slotLevels[i].ForeColor = Pokemon.GetStatusColor(pokes[i].ProminentStatusCondition);
                             else slotLevels[i].ForeColor = this.TextForeColor;

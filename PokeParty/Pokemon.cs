@@ -15,6 +15,7 @@ namespace PokeParty
         private short _currenthp = 0;
         private short _totalhp = 0;
         private StatusType _statusCondition = 0;
+        private string _nickname;
 
         public Pokemon(GameType version, short species, byte level)
         {
@@ -259,6 +260,12 @@ namespace PokeParty
         {
             if (_statusColors.ContainsKey(status)) return _statusColors[status];
             return GetStatusColor(StatusType.NONE);
+        }
+
+        public String Nickname
+        {
+            get { return this._nickname; }
+            set { this._nickname = value; }
         }
     }
 }

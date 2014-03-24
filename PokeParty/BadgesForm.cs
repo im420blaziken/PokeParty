@@ -188,7 +188,7 @@ namespace PokeParty
 
                         try
                         {
-                            image = AnimatedSprite.FixedSize(image, badge.Width - 16, badge.Height - 16, this.BackColor);
+                            //image = AnimatedSprite.FixedSize(image, badge.Width, badge.Height, this.BackColor);
 
                             Action setBadgeImage = () =>
                             {

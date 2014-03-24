@@ -340,9 +340,11 @@ namespace PokeParty
                         for (int i = 0; i < 500; i++)
                         {
                             // 87 FD 6D 73 EB FD 6C FD 73
-                            if (buf[i] == 0x87 && buf[i+1] == 0xFD && buf[i+3] == 0x73 && buf[i+4] == 0xEB && buf[i+5] == 0xFD && buf[i+6] == 0x6C)
+                            //if (buf[i] == 0x87 && buf[i+1] == 0xFD && buf[i+3] == 0x73 && buf[i+4] == 0xEB && buf[i+5] == 0xFD && buf[i+6] == 0x6C)
+                            if (buf[i] == 0x80 && buf[i + 1] == 0xFF && buf[i + 2] == 0xDD && buf[i + 3] == 0xDC && buf[i + 4] == 0xFE && buf[i + 5] == 0xBD)
                             {
-                                _badges = buf[i + 0x38];
+                                //_badges = buf[i + 0x38];
+                                _badges = buf[i + 0x45];
                                 /*int zeroes = 0;
                                 while (zeroes < 3)
                                 {

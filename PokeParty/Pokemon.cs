@@ -122,7 +122,7 @@ namespace PokeParty
                                            "Girafarig", "Pineco", "Forretress", "Dunsparce", "Gligar", "Steelix", "Snubbull", "Granbull", "Qwilfish", "Scizor", "Shuckle", "Heracross", 
                                            "Sneasel", "Teddiursa", "Ursaring", "Slugma", "Magcargo", "Swinub", "Piloswine", "Corsola", "Remoraid", "Octillery", "Delibird", "Mantine", 
                                            "Skarmory", "Houndour", "Houndoom", "Kingdra", "Phanpy", "Donphan", "Porygon2", "Stantler", "Smeargle", "Tyrogue", "Hitmontop", "Smoochum", 
-                                           "Elekid", "Magby", "Miltank", "Blissey", "Raikou", "Entei", "Suicune", "Larvitar", "Pupitar", "Tyranitar", "Lugia", "Ho-Oh", "Celebi", 
+                                           "Elekid", "Magby", "Miltank", "Blissey", "Raikou", "Entei", "Suicune", "Larvitar", "Pupitar", "Tyranitar", "Lugia", "HoOh", "Celebi", 
                                            "?????", "?????", "?????", "?????", "?????", "?????", "?????", "?????", "?????", "?????", "?????", "?????", "?????", "?????", "?????", "?????", 
                                            "?????", "?????", "?????", "?????", "?????", "?????", "?????", "?????", "?????", 
                                            // GEN III
@@ -182,6 +182,7 @@ namespace PokeParty
                         if (this.Species == 0xFD) return "egg";
                         return (this.Species >= _gen2names.Length) ? "?????" : _gen2names[this.Species];
                     case GameType.EMERALD:
+                    case GameType.LEAFGREEN:
                         if (this.Species == 0x19C) return "egg";
                         return (this.Species >= _gen3names.Length) ? "?????" : _gen3names[this.Species];
                     default:

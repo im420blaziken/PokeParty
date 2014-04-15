@@ -141,6 +141,9 @@ namespace PokeParty
                 case GameType.EMERALD:
                     _badgeNames.AddRange(new List<string>() { "Stone Badge", "Knuckle Badge", "Dynamo Badge", "Heat Badge", "Balance Badge", "Feather Badge", "Mind Badge", "Rain Badge" });
                     break;
+                case GameType.LEAFGREEN:
+                    _badgeNames.AddRange(new List<string>() { "Boulder Badge", "Cascade Badge", "Thunder Badge", "Rainbow Badge", "Soul Badge", "Marsh Badge", "Volcano Badge", "Earth Badge" });
+                    break;
                 // TODO Other games
             }
 
@@ -164,7 +167,9 @@ namespace PokeParty
                     }
                     if (!File.Exists(local_resource))
                     {
-                        string remote_url = @"http://stegriff.co.uk/content/badges/files/RSE/";
+                        string remote_url = @"";
+                        if (game == GameType.EMERALD) remote_url = @"http://stegriff.co.uk/content/badges/files/RSE/";
+                        else if (game == GameType.LEAFGREEN) remote_url = @"http://stegriff.co.uk/content/badges/files/RBY/";
                         using (MinimalWebClient Client = new MinimalWebClient())
                         {
                             string remote_resource_name = webname + ".png";

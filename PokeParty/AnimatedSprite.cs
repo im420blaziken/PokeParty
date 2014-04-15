@@ -136,42 +136,60 @@ namespace PokeParty
             float nPercentW = 0;
             float nPercentH = 0;
 
-            nPercentW = ((float)Width / (float)sourceWidth);
-            nPercentH = ((float)Height / (float)sourceHeight);
-            if (nPercentH < nPercentW) // height is constraining
+            int destWidth, destHeight;
+            if (sourceWidth > sourceHeight * 3)
             {
-                nPercent = nPercentH;
+                nPercent = 0.40F;
                 destX = System.Convert.ToInt16((Width -
-                              (sourceWidth * nPercent)) / 2);
+                                  (sourceWidth * nPercent)) / 2);
+                /*destY = System.Convert.ToInt16((Height -
+                                  (sourceHeight * nPercent)) / 2);*/
+
+                destWidth = (int)(sourceWidth * nPercent);
+                destHeight = (int)(sourceHeight * nPercent);
+
+                destY = (Height - destHeight) / 2;
             }
-            else // width is constraining
+            else
             {
-                nPercent = nPercentW;
-                destY = System.Convert.ToInt16((Height -
-                              (sourceHeight * nPercent)) / 2);
-            }
+                nPercentW = ((float)Width / (float)sourceWidth);
+                nPercentH = ((float)Height / (float)sourceHeight);
 
-            int destWidth = (int)(sourceWidth * nPercent);
-            int destHeight = (int)(sourceHeight * nPercent);
-
-            if (sourceHeight <= 64 || sourceWidth <= 64)
-            {
-                int _destWidth = (int)((double)destWidth * 0.75);
-                int _destHeight = (int)((double)destHeight * 0.75);
-                if (nPercent.Equals(nPercentH))
+                if (nPercentH < nPercentW) // height is constraining
                 {
-                    destX += (destWidth - _destWidth) / 2;
-                    destY += destHeight - _destHeight;
+                    nPercent = nPercentH;
+                    destX = System.Convert.ToInt16((Width -
+                                  (sourceWidth * nPercent)) / 2);
                 }
-                else if (nPercent.Equals(nPercentW))
+                else // width is constraining
                 {
-                    destX += (destWidth - _destWidth) / 2;
-                    destY += destHeight - _destHeight;
+                    nPercent = nPercentW;
+                    destY = System.Convert.ToInt16((Height -
+                                  (sourceHeight * nPercent)) / 2);
                 }
-                destWidth = _destWidth;
-                destHeight = _destHeight;
 
-                destY = Height - destHeight;
+                destWidth = (int)(sourceWidth * nPercent);
+                destHeight = (int)(sourceHeight * nPercent);
+
+                if (sourceHeight <= 64 || sourceWidth <= 64)
+                {
+                    int _destWidth = (int)((double)destWidth * 0.75);
+                    int _destHeight = (int)((double)destHeight * 0.75);
+                    if (nPercent.Equals(nPercentH))
+                    {
+                        destX += (destWidth - _destWidth) / 2;
+                        destY += destHeight - _destHeight;
+                    }
+                    else if (nPercent.Equals(nPercentW))
+                    {
+                        destX += (destWidth - _destWidth) / 2;
+                        destY += destHeight - _destHeight;
+                    }
+                    destWidth = _destWidth;
+                    destHeight = _destHeight;
+
+                    destY = Height - destHeight;
+                }
             }
 
             Bitmap bmPhoto = new Bitmap(Width, Height,

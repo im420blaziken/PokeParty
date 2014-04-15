@@ -64,6 +64,14 @@ namespace PokeParty
                     { OffsetType.BADGES, 0x396C }
                 }
             },
+            {
+                GameType.LEAFGREEN, 
+                new Dictionary<OffsetType, uint>() {
+                    { OffsetType.SAVESTATE, 0x2C800 },
+                    { OffsetType.TEAM_LIST, 0x63 },
+                    { OffsetType.BADGES, 0x26EE }
+                }
+            },
         };
 
         GameType _currentGame = GameType.EMERALD;
@@ -135,6 +143,7 @@ namespace PokeParty
             {"POKEMON YELLOW", GameType.RBY}, // TODO Add Red and Blue and double-check the savestate offset.
             {"POKEMON EMER", GameType.EMERALD},
             {"PM_CRYSTAL", GameType.CRYSTAL},
+            {"POKEMON LEAF", GameType.LEAFGREEN}
         };
         private void DetectVersion()
         {
@@ -233,6 +242,8 @@ namespace PokeParty
 
                         int count = br.ReadByte();      // bulbapedia is wrong. this is a byte. really? a dword for a value that is max 6?
                         br.ReadInt16();                 // not sure if this is right, but it works.
+                        /*if (_currentGame == GameType.EMERALD) br.ReadInt16();                 // not sure if this is right, but it works.
+                        else if (_currentGame == GameType.LEAFGREEN) br.ReadBytes(3);*/
 
                         _pkmn_team_position = br.BaseStream.Position;
                         for (int i = 0; i < count; i++)
@@ -247,10 +258,109 @@ namespace PokeParty
                                 Console.Write("{0:X} ", _nickname[m]);
                                 _nickname[m] = asciiTable[GameType.EMERALD][_nickname[m]];
                             }
+                            Console.Write("Transformed to: ");
+                            for (int m = 0; m < 10; m++)
+                            {
+                                Console.Write("{0:X} ", _nickname[m]);
+                            }
                             Console.WriteLine();
                             //string nickname = new string(_nickname, 0, 10);
                             string nickname = System.Text.Encoding.ASCII.GetString(_nickname, 0, 10);
-                            Console.WriteLine("Found nickname: ", nickname);
+                            Console.WriteLine("Found nickname: " + nickname);
+                            br.BaseStream.Seek(2, SeekOrigin.Current); // Language
+                            br.BaseStream.Seek(7, SeekOrigin.Current); // OT Name
+                            br.BaseStream.Seek(1, SeekOrigin.Current); // Mark
+                            br.BaseStream.Seek(2, SeekOrigin.Current); // Checksum
+                            br.BaseStream.Seek(2, SeekOrigin.Current); // ????
+
+                            uint order = (uint)personality % 24;
+
+                            int encryption = otid ^ personality;
+                            byte[] data = new byte[48];
+                            for (int j = 0; j < 48; j += 4)
+                            {
+                                int _bytes = br.ReadInt32() ^ encryption;
+                                data[j] = (byte)((_bytes >> 24) & 0xFF);
+                                data[j + 1] = (byte)((_bytes >> 16) & 0xFF);
+                                data[j + 2] = (byte)((_bytes >> 8) & 0xFF);
+                                data[j + 3] = (byte)(_bytes & 0xFF);
+                            }
+
+                            BinaryWriter dataWriter = new BinaryWriter(new MemoryStream());
+                            dataWriter.Write(data);
+
+                            BinaryReader dataReader = new BinaryReader(dataWriter.BaseStream);
+                            dataReader.BaseStream.Position = 0;
+
+                            short species = -1;
+                            int iv = 0;
+                            for (int j = 0; j < 4; j++)
+                            {
+                                switch (FormatOrder[order, j])
+                                {
+                                    case FormatStructure.GROWTH:
+                                        dataReader.ReadInt16(); // Item Held
+                                        species = IPAddress.HostToNetworkOrder(dataReader.ReadInt16()); // Species
+                                        dataReader.BaseStream.Seek(8, SeekOrigin.Current);
+                                        break;
+                                    case FormatStructure.MISC:
+                                        dataReader.ReadInt32();
+                                        iv = IPAddress.HostToNetworkOrder(dataReader.ReadInt32());
+                                        dataReader.ReadInt32();
+                                        break;
+                                    default:
+                                        dataReader.BaseStream.Seek(12, SeekOrigin.Current);
+                                        break;
+                                }
+                            }
+                            if ((iv & 1 << 30) > 0) species = 0x19C;
+                            Console.WriteLine("IV: " + iv);
+
+                            Pokemon.StatusType status_condition = (Pokemon.StatusType)br.ReadInt32(); // Status Condition
+                            byte level = br.ReadByte(); // Level
+                            br.ReadByte(); // Pokerus remaining
+                            short current_hp = br.ReadInt16();
+                            short total_hp = br.ReadInt16();
+
+                            Pokemon p = new Pokemon(_currentGame, species, level);
+                            p.Nickname = nickname;
+                            p.StatusCondition = status_condition;
+                            p.CurrentHP = current_hp;
+                            p.TotalHP = total_hp;
+                            Console.WriteLine("Pkmn " + i + " is species: " + p.Species + " (" + p.Name + "), level: " + p.Level + ", current hp: " + p.CurrentHP + ", total hp: " + p.TotalHP);
+                            _team.Add(p);
+                        }
+                    }
+                    else if (_currentGame == GameType.LEAFGREEN) // Bulbapedia claims they're the same, but I'm doubtful
+                    {
+                        BinaryReader br = new BinaryReader(_mem, System.Text.Encoding.ASCII);
+                        long _pkmn_team_position = _offsets[_currentGame][OffsetType.SAVESTATE] + _offsets[_currentGame][OffsetType.TEAM_LIST];
+                        br.BaseStream.Position = _pkmn_team_position;
+
+                        for (int i = 0; i < 6; i++)
+                        {
+                            br.BaseStream.Position = _pkmn_team_position + 100 * i;
+                            int personality = br.ReadInt32();   // Personality
+                            int otid = br.ReadInt32();          // OT ID
+
+                            if (personality == 0 && otid == 0) break;
+
+                            byte[] _nickname = br.ReadBytes(10);        // Nickname
+                            Console.Write("Found raw nickname: ");
+                            for (int m = 0; m < 10; m++)
+                            {
+                                Console.Write("{0:X} ", _nickname[m]);
+                                _nickname[m] = asciiTable[GameType.EMERALD][_nickname[m]];
+                            }
+                            Console.Write("Transformed to: ");
+                            for (int m = 0; m < 10; m++)
+                            {
+                                Console.Write("{0:X} ", _nickname[m]);
+                            }
+                            Console.WriteLine();
+                            //string nickname = new string(_nickname, 0, 10);
+                            string nickname = System.Text.Encoding.ASCII.GetString(_nickname, 0, 10);
+                            Console.WriteLine("Found nickname: " + nickname);
                             br.BaseStream.Seek(2, SeekOrigin.Current); // Language
                             br.BaseStream.Seek(7, SeekOrigin.Current); // OT Name
                             br.BaseStream.Seek(1, SeekOrigin.Current); // Mark
@@ -331,6 +441,9 @@ namespace PokeParty
                 {
                     if (_currentGame == GameType.EMERALD)
                     {
+                        _badges = 0xFF;
+                        return _badges; // Hotfix : Not sure what the heck happened after we cleared the Elite Four. Stupid Battle Frontier data.
+
                         BinaryReader br = new BinaryReader(_mem, System.Text.Encoding.UTF32);
                         long _pkmn_team_position = _offsets[_currentGame][OffsetType.SAVESTATE] + _offsets[_currentGame][OffsetType.BADGES];
                         br.BaseStream.Position = _pkmn_team_position;
@@ -341,10 +454,10 @@ namespace PokeParty
                         {
                             // 87 FD 6D 73 EB FD 6C FD 73
                             //if (buf[i] == 0x87 && buf[i+1] == 0xFD && buf[i+3] == 0x73 && buf[i+4] == 0xEB && buf[i+5] == 0xFD && buf[i+6] == 0x6C)
-                            if (buf[i] == 0x80 && buf[i + 1] == 0xFF && buf[i + 2] == 0xDD && buf[i + 5] == 0xBD)
+                            if (buf[i] == 0x0 && buf[i+1] == 0x0 && buf[i+3] == 0x0 && buf[i+4] == 0x80)
                             {
                                 //_badges = buf[i + 0x38];
-                                _badges = buf[i + 0x45];
+                                _badges = buf[i + 0x49];
                                 /*int zeroes = 0;
                                 while (zeroes < 3)
                                 {
@@ -355,6 +468,22 @@ namespace PokeParty
                             }
                         }
                         return _badges; // gg, ez.
+                    } else if (_currentGame == GameType.LEAFGREEN)
+                    {
+                        BinaryReader br = new BinaryReader(_mem, System.Text.Encoding.UTF32);
+                        br.BaseStream.Position = _offsets[_currentGame][OffsetType.SAVESTATE] + _offsets[_currentGame][OffsetType.BADGES];
+
+                        byte[] buf = new byte[512];
+                        br.Read(buf, 0, 512);
+                        for (int i = 0; i < 500; i++)
+                        {
+                            // 87 FD 6D 73 EB FD 6C FD 73
+                            //if (buf[i] == 0x87 && buf[i+1] == 0xFD && buf[i+3] == 0x73 && buf[i+4] == 0xEB && buf[i+5] == 0xFD && buf[i+6] == 0x6C)
+                            if (buf[i] == 0x0 && buf[i + 1] == 0x0 && buf[i + 3] == 0x0 && buf[i + 4] == 0x80)
+                            {
+                                return buf[i + 0x40]; // gg, ez.
+                            }
+                        }
                     }
                 }
                 return 0;

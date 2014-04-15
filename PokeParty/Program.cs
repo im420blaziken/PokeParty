@@ -33,7 +33,8 @@ namespace PokeParty
         UNKNOWN,
         RBY,
         CRYSTAL,
-        EMERALD
+        EMERALD,
+        LEAFGREEN
     }
 
     static class Program
